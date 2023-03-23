@@ -30,9 +30,9 @@ class Forecast {
 
 app.get('/weather', async (request, response, next) => {
   try {
-    let lat = request.query.lat;
-    let lon = request.query.lon;
-    let url = `https://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHER_API_KEY}&lat=${lat}&lon=${lon}`;
+    let latitude = request.query.latitude;
+    let longitude = request.query.longitude;
+    let url = `http://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHER_API_KEY}&lat=${latitude}&lon=${longitude}&days=5&units=I`;
 
     let weatherResponse = await axios.get(url);
 
@@ -52,7 +52,8 @@ app.get('/weather', async (request, response, next) => {
 app.get('/movies', async (request, response, next) => {
   try {
     let city = request.query.city;
-    let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_MOVIEDB_API_KEY}&query=${city}`;
+    let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIEDB_API_KEY}&query=${city}`;
+
 
     let movieResponse = await axios.get(url);
 
