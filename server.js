@@ -1,11 +1,12 @@
 'use strict';
+
 //IMPORTS
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
+const axios = require('axios');
 
 const app = express();
-let data = require('./data/weather.json');
 
 // Middleware
 app.use(cors());
@@ -31,24 +32,32 @@ app.get('/weather', async (request, response, next) => {
   try {
     let lat = request.query.lat;
     let lon = request.query.lon;
-    let searchQuery = request.query.searchQuery;
+    let url = `https://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHER_API_KEY}&lat=${lat}&lon=${lon}`;
 
-    // Use the .find() method to determine which city the search query belongs to
-    let city = data.find(city => {
-      return city.lat === lat && city.lon === lon || city.city_name.toLowerCase() === searchQuery.toLowerCase();
-    });
-
-    if (!city) {
-      throw new Error('City not found. Please search for Seattle, Paris, or Amman.');
-    }
+    let weatherResponse = await axios.get(url);
 
     // Create an array of Forecast objects, one for each day in the city's weather data
-    const forecasts = city.data.map(day => {
-      return new Forecast(day.datetime.slice(0, 10), day.weather.description);
+    const forecasts = weatherResponse.data.data.map(day => {
+      return new Forecast(day.valid_date, day.weather.description);
     });
 
     // Return the forecasts array to the client as a JSON object
-    response.status(200).json(forecasts);
+    response.status(200).send(forecasts);
+  } catch (error) {
+    console.log(error.message);
+    next(error.message);
+  }
+});
+
+app.get('/movies', async (request, response, next) => {
+  try {
+    let city = request.query.city;
+    let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_MOVIEDB_API_KEY}&query=${city}`;
+
+    let movieResponse = await axios.get(url);
+
+    // Return the movie data to the client as a JSON object
+    response.status(200).send(movieResponse.data);
   } catch (error) {
     console.log(error.message);
     next(error.message);
