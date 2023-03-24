@@ -28,6 +28,8 @@ The API server uses several libraries and technologies, including Node.js and Ex
 
 ## Credit and Collaborations
 
+## Lab 7
+
 Name of feature: Created data and app JS to pull from an API and print a map and cordinates.
 
 Estimate of time needed to complete: 2 hours
@@ -37,3 +39,17 @@ Start time: 1:30
 Finish time: 7
 
 Actual time needed to complete: 5.5hrs
+
+## Lab 9
+
+Name of feature: seperated out the weather and movie components
+
+Estimate of time needed to complete: 3 hours
+
+Start time: 5:30
+
+Finish time: 6:45
+
+Actual time needed to complete: 1.25hrs
+
+![diagram](/Screenshot%202023-03-23%20at%207.09.28%20PM.png)
